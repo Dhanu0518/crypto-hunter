@@ -1,13 +1,16 @@
 {
   "files": {
-    "main.css": "/crypto-hunter/static/css/main.9d0f856a.css",
-    "main.js": "/crypto-hunter/static/js/main.c4fdfa49.js",
+    "main.css": "/crypto-hunter/static/css/main.753353c9.css",
+    "main.js": "/crypto-hunter/static/js/main.c2de52f2.js",
+    "static/media/revicons.eot": "/crypto-hunter/static/media/revicons.a77de540a38981833f9e.eot",
+    "static/media/revicons.ttf": "/crypto-hunter/static/media/revicons.57fd05d4ae650374c8de.ttf",
+    "static/media/revicons.woff": "/crypto-hunter/static/media/revicons.e8746a624ed098489406.woff",
     "index.html": "/crypto-hunter/index.html",
-    "main.9d0f856a.css.map": "/crypto-hunter/static/css/main.9d0f856a.css.map",
-    "main.c4fdfa49.js.map": "/crypto-hunter/static/js/main.c4fdfa49.js.map"
+    "main.753353c9.css.map": "/crypto-hunter/static/css/main.753353c9.css.map",
+    "main.c2de52f2.js.map": "/crypto-hunter/static/js/main.c2de52f2.js.map"
   },
   "entrypoints": [
-    "static/css/main.9d0f856a.css",
-    "static/js/main.c4fdfa49.js"
+    "static/css/main.753353c9.css",
+    "static/js/main.c2de52f2.js"
   ]
 }
