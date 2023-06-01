@@ -38,7 +38,7 @@ const Signup = ({ handleClose }) => {
     } catch (error) {
       setAlert({
         open: true,
-        message: error.message,
+        message: "Email already exist",
         type: "error",
       });
       return;

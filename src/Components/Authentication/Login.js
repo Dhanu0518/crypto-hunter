@@ -32,7 +32,7 @@ const Login = ({ handleClose }) => {
     } catch (error) {
       setAlert({
         open: true,
-        message: error.message,
+        message: "Please Enter the valid combination of email and password",
         type: "error",
       });
       return;

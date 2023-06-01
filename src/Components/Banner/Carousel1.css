@@ -1,0 +1,35 @@
+.Carousel-display {
+  height: 50%;
+  display: flex;
+  align-items: center;
+  padding: 5%;
+  /* flexWrap: "nowrap", */
+}
+
+.carouselItem-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: white;
+  padding: 1%;
+}
+.Carousel-display .carouselItem-display:nth-child(3) .padding {
+  padding-left: 35px;
+}
+.Carousel-display .carouselItem-display:nth-child(4) .padding {
+  padding-left: 20px;
+}
+.Carousel-display .carouselItem-display:nth-child(5) .padding {
+  padding-left: 10px;
+}
+.Carousel-display .carouselItem-display:nth-child(6) .padding {
+  padding-left: 43px;
+}
+
+@media screen and (max-width: 900px) {
+  .Carousel-display {
+    display: none;
+  }
+}
