@@ -48,7 +48,7 @@ const Header = () => {
         <Container>
           <Toolbar>
             <Typography
-              onClick={() => history.push(`/crypto-hunter`)}
+              onClick={() => history.push(`/`)}
               variant="h6"
               className={classes.title}
             >
@@ -65,8 +65,6 @@ const Header = () => {
             >
               <MenuItem value={"USD"}>USD</MenuItem>
               <MenuItem value={"INR"}>INR</MenuItem>
-
-              <MenuItem value={"EUR"}>EUR</MenuItem>
             </Select>
             {user ? <UserSidebar /> : <AuthModal />}
           </Toolbar>

@@ -7,6 +7,7 @@ import CoinPage from "./Pages/CoinPage";
 // import Header from "./components/Header";
 import Header from "./Components/Header";
 import Alert from "./Components/Alert";
+import Chat from "./Components/Chat/Chat";
 
 const useStyles = makeStyles(() => ({
   App: {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/crypto-hunter/coins/:id" component={CoinPage} exact />
       </div>
       <Alert />
+      <Chat />
     </BrowserRouter>
   );
 }

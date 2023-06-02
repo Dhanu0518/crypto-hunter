@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 
 export class Chat extends Component {
-  //   constructor(props) {
-  //     super(props);
-  //   }
-  componentDidMount() {
+  componentDidMount = () => {
     (function (d, m) {
       var kommunicateSettings = {
         appId: "26890e6d03c5197b51f37757accafeaf7",
@@ -21,7 +18,7 @@ export class Chat extends Component {
       m._globals = kommunicateSettings;
     })(document, window.kommunicate || {});
     /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
-  }
+  };
   render() {
     return <div></div>;
   }
