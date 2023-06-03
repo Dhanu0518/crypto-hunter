@@ -8,6 +8,7 @@ import { auth, db } from "./../firebase";
 import { numberWithCommas } from "./../CoinsTable";
 import { AiFillDelete } from "react-icons/ai";
 import { doc, setDoc } from "firebase/firestore";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   container: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     fontFamily: "monospace",
+    backgroundColor: "#797cba",
   },
   profile: {
     flex: 1,
@@ -31,18 +33,36 @@ const useStyles = makeStyles({
     width: "100%",
     backgroundColor: "#EEBC1D",
     marginTop: 20,
+    transition: "0.5s ease",
+    "&:hover": {
+      backgroundColor: "#032369",
+      fontWeight: "bold",
+      color: "white",
+    },
   },
   picture: {
     width: 200,
     height: 200,
     cursor: "pointer",
-    backgroundColor: "#EEBC1D",
+    backgroundColor: "#232bc2",
     objectFit: "contain",
+    color: "#c3bad1",
+  },
+  picture_displayname: {
+    width: 200,
+    height: 200,
+    fontSize: 100,
+    cursor: "pointer",
+    backgroundColor: "#232bc2",
+    objectFit: "contain",
+    fontWeight: 500,
+    fontFamily: "monospace",
+    color: "#e7e6e8",
   },
   watchlist: {
     flex: 1,
     width: "100%",
-    backgroundColor: "grey",
+    backgroundColor: "#131b42",
     borderRadius: 10,
     padding: 15,
     paddingTop: 10,
@@ -60,7 +80,7 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#EEBC1D",
+    backgroundColor: "#7787a8",
     boxShadow: "0 0 3px black",
   },
 });
@@ -84,6 +104,7 @@ export default function UserSidebar() {
 
     setState({ ...state, [anchor]: open });
   };
+  const history = useHistory();
 
   const logOut = () => {
     signOut(auth);
@@ -96,6 +117,11 @@ export default function UserSidebar() {
     toggleDrawer();
   };
 
+  const handleCoinClick = (item) => {
+    toggleDrawer(false);
+    history.push(`/crypto-hunter/coins/${item}`);
+    window.location.reload();
+  };
   const removeFromWatchlist = async (coin) => {
     const coinRef = doc(db, "watchlist", user.uid);
     try {
@@ -122,19 +148,39 @@ export default function UserSidebar() {
   return (
     <div>
       {["right"].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Avatar
-            onClick={toggleDrawer(anchor, true)}
-            style={{
-              height: 38,
-              width: 38,
-              marginLeft: 15,
-              cursor: "pointer",
-              backgroundColor: "#EEBC1D",
-            }}
-            src={user.photoURL}
-            alt={user.displayName || user.email}
-          />
+        <React.Fragment key={anchor} style={{ backgroundColor: "#797cba" }}>
+          {user.photoURL ? (
+            <Avatar
+              onClick={toggleDrawer(anchor, true)}
+              style={{
+                height: 38,
+                width: 38,
+                marginLeft: 15,
+                cursor: "pointer",
+                backgroundColor: "#232bc2",
+                color: "#c3bad1",
+              }}
+              src={user.photoURL}
+              alt={user.displayName || user.email}
+            />
+          ) : (
+            <Avatar
+              onClick={toggleDrawer(anchor, true)}
+              style={{
+                height: 38,
+                width: 38,
+                marginLeft: 15,
+                fontWeight: "bold",
+                cursor: "pointer",
+                backgroundColor: "#232bc2",
+                color: "#c3bad1",
+                textDecoration: "italic",
+              }}
+              src={user.displayName}
+              alt={user.displayName || user.email}
+            />
+          )}
+
           <Drawer
             anchor={anchor}
             open={state[anchor]}
@@ -142,11 +188,20 @@ export default function UserSidebar() {
           >
             <div className={classes.container}>
               <div className={classes.profile}>
-                <Avatar
-                  className={classes.picture}
-                  src={user.photoURL}
-                  alt={user.displayName || user.email}
-                />
+                {user.photoURL ? (
+                  <Avatar
+                    className={classes.picture}
+                    src={user.photoURL}
+                    alt={user.displayName || user.email}
+                  />
+                ) : (
+                  <Avatar
+                    className={classes.picture_displayname}
+                    src={user.displayName}
+                    alt={user.displayName || user.email}
+                  />
+                )}
+
                 <span
                   style={{
                     width: "100%",
@@ -166,8 +221,21 @@ export default function UserSidebar() {
                     if (watchlist.includes(coin.id))
                       return (
                         <div className={classes.coin}>
-                          <span>{coin.name}</span>
-                          <span style={{ display: "flex", gap: 8 }}>
+                          <span
+                            onClick={() => handleCoinClick(coin.id)}
+                            style={{
+                              cursor: "pointer",
+                            }}
+                          >
+                            {coin.name}
+                          </span>
+                          <span
+                            style={{
+                              display: "flex",
+                              gap: 8,
+                              cursor: "pointer",
+                            }}
+                          >
                             {symbol}{" "}
                             {numberWithCommas(coin.current_price.toFixed(2))}
                             <AiFillDelete

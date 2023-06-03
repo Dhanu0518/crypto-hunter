@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Banner() {
+const Banner = () => {
   const classes = useStyles();
 
   return (
@@ -41,7 +41,7 @@ function Banner() {
               fontFamily: "Montserrat",
             }}
           >
-            Crypto Hunter
+            Crypto Tracker
           </Typography>
           <Typography
             variant="subtitle2"
@@ -58,6 +58,6 @@ function Banner() {
       </Container>
     </div>
   );
-}
+};
 
 export default Banner;

@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Montserrat",
     fontWeight: "bold",
     cursor: "pointer",
+    display: "flex",
   },
 }));
 
@@ -48,11 +49,31 @@ const Header = () => {
         <Container>
           <Toolbar>
             <Typography
-              onClick={() => history.push(`/`)}
+              onClick={() => history.push(`/crypto-hunter`)}
               variant="h6"
               className={classes.title}
             >
-              Dhanu's Crypto Hunter
+              <img
+                src="https://www.logolynx.com/images/logolynx/ba/bad47cfe17cc0f9a54c760f1c668bb01.png"
+                alt="logo"
+                style={{
+                  backgroundColor: "none",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />
+              <h6
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                  marginLeft: "10px",
+                }}
+              >
+                CryptoTracker
+              </h6>
             </Typography>
             {/* <Button color="inherit">Login</Button> */}
             <Select
@@ -60,11 +81,15 @@ const Header = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={currency}
-              style={{ width: 100, height: 40, marginLeft: 15 }}
+              style={{
+                width: 100,
+                height: 40,
+                marginLeft: 30,
+              }}
               onChange={(e) => setCurrency(e.target.value)}
             >
               <MenuItem value={"USD"}>USD</MenuItem>
-              <MenuItem value={"INR"}>INR</MenuItem>
+              <MenuItem value={"INR"}>IND</MenuItem>
             </Select>
             {user ? <UserSidebar /> : <AuthModal />}
           </Toolbar>

@@ -33,6 +33,20 @@ const useStyles = makeStyles((theme) => ({
     gap: 20,
     fontSize: 20,
   },
+  login: {
+    width: 85,
+    height: 40,
+    marginLeft: 15,
+    backgroundColor: "#EEBC1D",
+    transition: "0.5s ease",
+    "&:hover": {
+      backgroundColor: "#273e70",
+      border: "none",
+      outline: "none",
+      fontWeight: "bold",
+      color: "white",
+    },
+  },
 }));
 
 export default function AuthModal() {
@@ -82,12 +96,7 @@ export default function AuthModal() {
     <div>
       <Button
         variant="contained"
-        style={{
-          width: 85,
-          height: 40,
-          marginLeft: 15,
-          backgroundColor: "#EEBC1D",
-        }}
+        className={classes.login}
         onClick={handleOpen}
       >
         Login

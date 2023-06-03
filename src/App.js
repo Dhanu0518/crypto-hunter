@@ -11,7 +11,7 @@ import Chat from "./Components/Chat/Chat";
 
 const useStyles = makeStyles(() => ({
   App: {
-    backgroundColor: "#14161a",
+    backgroundColor: "#02103d",
     color: "white",
     minHeight: "100vh",
   },

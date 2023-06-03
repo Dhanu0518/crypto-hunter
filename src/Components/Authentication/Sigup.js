@@ -3,12 +3,26 @@ import { useState } from "react";
 import { CryptoState } from "../../CryptoContext";
 // import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles({
+  signup: {
+    backgroundColor: "#EEBC1D",
+    transition: "0.5s ease",
+    "&:hover": {
+      backgroundColor: "#032369",
+      fontWeight: "bold",
+      color: "white",
+    },
+  },
+});
 const Signup = ({ handleClose }) => {
+  const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
   const { setAlert } = CryptoState();
 
@@ -28,12 +42,17 @@ const Signup = ({ handleClose }) => {
         email,
         password
       );
+      const user = result.user;
+      const profile = await updateProfile(user, {
+        displayName: displayName,
+      });
+      console.log(profile);
+
       setAlert({
         open: true,
-        message: `Sign Up Successful. Welcome ${result.user.email}`,
+        message: `Sign Up Successful. Welcome ${result.user.displayName}`,
         type: "success",
       });
-
       handleClose();
     } catch (error) {
       setAlert({
@@ -54,6 +73,14 @@ const Signup = ({ handleClose }) => {
         gap: "20px",
       }}
     >
+      <TextField
+        variant="outlined"
+        type="text"
+        label="Enter your name"
+        value={displayName}
+        onChange={(e) => setDisplayName(e.target.value)}
+        fullWidth
+      />
       <TextField
         variant="outlined"
         type="email"
@@ -81,7 +108,7 @@ const Signup = ({ handleClose }) => {
       <Button
         variant="contained"
         size="large"
-        style={{ backgroundColor: "#EEBC1D" }}
+        className={classes.signup}
         onClick={handleSubmit}
       >
         Sign Up

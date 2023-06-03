@@ -3,8 +3,21 @@ import { useState } from "react";
 import { CryptoState } from "../../CryptoContext";
 import { auth } from "./../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles({
+  login: {
+    backgroundColor: "#EEBC1D",
+    transition: "0.5s ease",
+    "&:hover": {
+      backgroundColor: "#032369",
+      fontWeight: "bold",
+      color: "white",
+    },
+  },
+});
 const Login = ({ handleClose }) => {
+  const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,7 +37,7 @@ const Login = ({ handleClose }) => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       setAlert({
         open: true,
-        message: `Login Successful. Welcome ${result.user.email}`,
+        message: `Login Successful. Welcome ${result.user.displayName}`,
         type: "success",
       });
 
@@ -68,7 +81,7 @@ const Login = ({ handleClose }) => {
         variant="contained"
         size="large"
         onClick={handleSubmit}
-        style={{ backgroundColor: "#EEBC1D" }}
+        className={classes.login}
       >
         Login
       </Button>
