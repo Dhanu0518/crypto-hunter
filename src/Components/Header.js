@@ -16,6 +16,7 @@ import { CryptoState } from "../CryptoContext";
 import AuthModal from "./Authentication/AuthModal";
 // import Login from "./Authentication/Login";
 import UserSidebar from "./Authentication/UserSidebar";
+import "./Header.css";
 const useStyles = makeStyles((theme) => ({
   title: {
     flex: 1,
@@ -56,24 +57,9 @@ const Header = () => {
               <img
                 src="https://www.logolynx.com/images/logolynx/ba/bad47cfe17cc0f9a54c760f1c668bb01.png"
                 alt="logo"
-                style={{
-                  backgroundColor: "none",
-                  width: "40px",
-                  height: "40px",
-                }}
+                className="logo"
               />
-              <h6
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontWeight: "bold",
-                  fontSize: "20px",
-                  marginLeft: "10px",
-                }}
-              >
-                CryptoTracker
-              </h6>
+              <h6 className="title">CryptoTracker</h6>
             </Typography>
             {/* <Button color="inherit">Login</Button> */}
             <Select
@@ -84,7 +70,7 @@ const Header = () => {
               style={{
                 width: 100,
                 height: 40,
-                marginLeft: 30,
+                marginLeft: 15,
               }}
               onChange={(e) => setCurrency(e.target.value)}
             >

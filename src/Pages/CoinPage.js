@@ -127,6 +127,21 @@ const CoinPage = () => {
         alignItems: "start",
       },
     },
+    watchlist: {
+      width: "100%",
+      height: 40,
+      backgroundColor: inWatchlist ? "#941530" : "#EEBC1D",
+      transition: "0.9s",
+      color: !inWatchlist ? "black" : "white",
+      "&:hover": {
+        backgroundColor: !inWatchlist ? "#032369" : "red",
+        fontWeight: "bold",
+        color: inWatchlist ? "black" : "white",
+      },
+      "&:active": {
+        transform: "scale(0.95)",
+      },
+    },
   }));
 
   const classes = useStyles();
@@ -203,11 +218,7 @@ const CoinPage = () => {
           {user && (
             <Button
               variant="outlined"
-              style={{
-                width: "100%",
-                height: 40,
-                backgroundColor: inWatchlist ? "#ff0000" : "#EEBC1D",
-              }}
+              className={classes.watchlist}
               onClick={inWatchlist ? removeFromWatchlist : addToWatchlist}
             >
               {inWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}

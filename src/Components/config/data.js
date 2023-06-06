@@ -16,3 +16,9 @@ export const chartDays = [
     value: 365,
   },
 ];
+export const chartHours = [
+  {
+    label: "3 hours",
+    value: 0.3,
+  },
+];

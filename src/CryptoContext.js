@@ -70,6 +70,7 @@ const CryptoContext = ({ children }) => {
         symbol,
         alert,
         setAlert,
+        setLoading,
         user,
         coins,
         loading,

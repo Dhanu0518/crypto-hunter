@@ -42,6 +42,7 @@ const useStyles = makeStyles({
   },
   picture: {
     width: 200,
+    fontSize: 100,
     height: 200,
     cursor: "pointer",
     backgroundColor: "#232bc2",
@@ -51,7 +52,7 @@ const useStyles = makeStyles({
   picture_displayname: {
     width: 200,
     height: 200,
-    fontSize: 100,
+    fontSize: 102,
     cursor: "pointer",
     backgroundColor: "#232bc2",
     objectFit: "contain",

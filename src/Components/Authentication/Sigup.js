@@ -1,10 +1,15 @@
 import { Box, Button, TextField } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CryptoState } from "../../CryptoContext";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   signup: {
@@ -17,14 +22,48 @@ const useStyles = makeStyles({
     },
   },
 });
+
 const Signup = ({ handleClose }) => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const { setAlert } = CryptoState();
+  const history = useHistory();
+
+  useEffect(() => {
+    // Check if the email verification action is triggered
+    const urlParams = new URLSearchParams(window.location.search);
+    const mode = urlParams.get("mode");
+    const actionCode = urlParams.get("oobCode");
+
+    if (mode === "verifyEmail" && actionCode) {
+      setLoading(true);
+
+      // Verify the email action code
+      auth
+        .applyActionCode(actionCode)
+        .then(() => {
+          setAlert({
+            open: true,
+            message:
+              "Email verification successful. Please proceed to sign up.",
+            type: "success",
+          });
+          setLoading(false);
+        })
+        .catch((error) => {
+          setAlert({
+            open: true,
+            message: error.message,
+            type: "error",
+          });
+          setLoading(false);
+        });
+    }
+  }, []);
 
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
@@ -37,30 +76,46 @@ const Signup = ({ handleClose }) => {
     }
 
     try {
+      setLoading(true);
       const result = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
       const user = result.user;
-      const profile = await updateProfile(user, {
+
+      await updateProfile(user, {
         displayName: displayName,
       });
-      console.log(profile);
 
-      setAlert({
-        open: true,
-        message: `Sign Up Successful. Welcome ${result.user.displayName}`,
-        type: "success",
+      await sendEmailVerification(user);
+
+      onAuthStateChanged(auth, (user) => {
+        if (user && user.emailVerified) {
+          setAlert({
+            open: true,
+            message: `Sign Up Successful. Your email has been verified. Welcome ${user.displayName}`,
+            type: "success",
+          });
+          handleClose();
+        } else {
+          setAlert({
+            open: true,
+            message:
+              "Sign Up Successful. Please check your email for verification.",
+            type: "success",
+          });
+          setLoading(false);
+          history.push("/verify-email");
+        }
       });
-      handleClose();
     } catch (error) {
       setAlert({
         open: true,
-        message: "Email already exist",
+        message: error.message,
         type: "error",
       });
-      return;
+      setLoading(false);
     }
   };
 
@@ -110,8 +165,9 @@ const Signup = ({ handleClose }) => {
         size="large"
         className={classes.signup}
         onClick={handleSubmit}
+        disabled={loading}
       >
-        Sign Up
+        {loading ? "Loading..." : "Sign Up"}
       </Button>
     </Box>
   );

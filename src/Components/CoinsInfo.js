@@ -43,6 +43,12 @@ const CoinInfo = ({ coin }) => {
   const fetchHistoricData = async () => {
     const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
     setflag(true);
+    // console.log(days);
+    // date1 = new Date();
+    console.log(HistoricalChart);
+
+    console.log(data.prices[1]);
+
     setHistoricData(data.prices);
   };
 
@@ -67,7 +73,7 @@ const CoinInfo = ({ coin }) => {
       <div className={classes.container}>
         {!historicData | (flag === false) ? (
           <CircularProgress
-            style={{ color: "gold" }}
+            style={{ color: "#EEBC1D" }}
             size={250}
             thickness={1}
           />

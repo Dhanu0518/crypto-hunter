@@ -133,7 +133,9 @@ export default function AuthModal() {
               </Tabs>
             </AppBar>
             {value === 0 && <Login handleClose={handleClose} />}
-            {value === 1 && <Signup handleClose={handleClose} />}
+            {value === 1 && (
+              <Signup handleClose={handleClose} handleOpen={handleOpen} />
+            )}
             <Box className={classes.google}>
               <span>OR</span>
               <GoogleButton

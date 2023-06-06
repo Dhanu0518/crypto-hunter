@@ -71,9 +71,17 @@ export default function CoinsTable() {
     setCoins(data);
     setLoading(false);
   };
+  const fetchHistoricData = async () => {
+    const { data } = await axios.get(CoinList(currency));
+    const graph = data.coins;
+    console.log(graph);
+  };
 
   useEffect(() => {
     fetchCoins();
+    fetchHistoricData();
+    // fetchHistoricData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currency]);
 
@@ -185,7 +193,6 @@ export default function CoinsTable() {
                           {numberWithCommas(
                             row.market_cap.toString().slice(0, -6)
                           )}
-                          M
                         </TableCell>
                       </TableRow>
                     );
