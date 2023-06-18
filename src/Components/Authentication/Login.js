@@ -37,23 +37,25 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     width: "max-content",
     cursor: "pointer",
-    transition: "0.5s ease",
+    transition: "0.9s ease",
     "&:hover": {
-      color: "white",
+      color: "#EEBC1D",
+
       "&::before": {
         transform: "scaleX(1)",
+        transformOrigin: "left",
       },
     },
     "&::before": {
       content: '""',
       position: "absolute",
-      bottom: 0,
+      bottom: -1,
       left: 0,
       width: "100%",
       height: "2px",
-      backgroundColor: "white",
+      backgroundColor: "#EEBC1D",
       transform: "scaleX(0)",
-      transition: "transform 0.5s ease",
+      transition: "transform 0.9s ease",
     },
   },
 }));

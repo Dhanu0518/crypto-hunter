@@ -9,6 +9,7 @@ import { numberWithCommas } from "./../CoinsTable";
 import { AiFillDelete } from "react-icons/ai";
 import { doc, setDoc } from "firebase/firestore";
 import { useHistory } from "react-router-dom";
+// import EditProfile from "./../EditProfile";
 
 const useStyles = makeStyles({
   container: {
@@ -73,6 +74,15 @@ const useStyles = makeStyles({
     gap: 12,
     overflowY: "scroll",
   },
+  watchlist1: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "80px",
+    textTransform: "uppercase",
+    color: "#666",
+    fontSize: "1rem",
+  },
   coin: {
     padding: 10,
     borderRadius: 5,
@@ -83,6 +93,17 @@ const useStyles = makeStyles({
     alignItems: "center",
     backgroundColor: "#7787a8",
     boxShadow: "0 0 3px black",
+  },
+  formContainer: {
+    marginTop: 5,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "10px",
+  },
+  formButton: {
+    width: "100%",
+    marginTop: 10,
   },
 });
 
@@ -145,6 +166,15 @@ export default function UserSidebar() {
       });
     }
   };
+
+  const handleEditProfileOpen = () => {
+    toggleDrawer(false);
+    history.push("/crypto-hunter/edit-profile");
+  };
+
+  // const handleEditProfileClose = () => {
+  //   history.push("/crypto-hunter");
+  // };
 
   return (
     <div>
@@ -214,42 +244,63 @@ export default function UserSidebar() {
                 >
                   {user.displayName || user.email}
                 </span>
-                <div className={classes.watchlist}>
-                  <span style={{ fontSize: 15, textShadow: "0 0 5px black" }}>
-                    Watchlist
-                  </span>
-                  {coins.map((coin) => {
-                    if (watchlist.includes(coin.id))
-                      return (
-                        <div className={classes.coin}>
-                          <span
-                            onClick={() => handleCoinClick(coin.id)}
-                            style={{
-                              cursor: "pointer",
-                            }}
-                          >
-                            {coin.name}
-                          </span>
-                          <span
-                            style={{
-                              display: "flex",
-                              gap: 8,
-                              cursor: "pointer",
-                            }}
-                          >
-                            {symbol}{" "}
-                            {numberWithCommas(coin.current_price.toFixed(2))}
-                            <AiFillDelete
-                              style={{ cursor: "pointer" }}
-                              fontSize="16"
-                              onClick={() => removeFromWatchlist(coin)}
-                            />
-                          </span>
-                        </div>
-                      );
-                    else return <></>;
-                  })}
+                <div className={classes.formContainer}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.formButton}
+                    onClick={handleEditProfileOpen}
+                  >
+                    Edit Profile
+                  </Button>
                 </div>
+                {watchlist.length > 0 ? (
+                  <div className={classes.watchlist}>
+                    <span style={{ fontSize: 15, textShadow: "0 0 5px black" }}>
+                      Watchlist
+                    </span>
+                    {coins.map((coin) => {
+                      if (watchlist.includes(coin.id))
+                        return (
+                          <div className={classes.coin}>
+                            <span
+                              onClick={() => handleCoinClick(coin.id)}
+                              style={{
+                                cursor: "pointer",
+                              }}
+                            >
+                              {coin.name}
+                            </span>
+                            <span
+                              style={{
+                                display: "flex",
+                                gap: 8,
+                                cursor: "pointer",
+                              }}
+                            >
+                              {symbol}{" "}
+                              {numberWithCommas(coin.current_price.toFixed(2))}
+                              <AiFillDelete
+                                style={{ cursor: "pointer" }}
+                                fontSize="16"
+                                onClick={() => removeFromWatchlist(coin)}
+                              />
+                            </span>
+                          </div>
+                        );
+                      else return <></>;
+                    })}
+                  </div>
+                ) : (
+                  <div className={classes.watchlist}>
+                    <span style={{ fontSize: 15, textShadow: "0 0 5px black" }}>
+                      Watchlist
+                    </span>
+                    <div className={classes.watchlist1}>
+                      your watchlist is empty
+                    </div>
+                  </div>
+                )}
               </div>
               <Button
                 variant="contained"

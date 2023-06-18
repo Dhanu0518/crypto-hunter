@@ -6,9 +6,11 @@ import { BrowserRouter, Route } from "react-router-dom";
 import CoinPage from "./Pages/CoinPage";
 import VerifyEmailPage from "./Components/Authentication/VerifyEmailPage";
 // import Header from "./components/Header";
-import Header from "./Components/Header";
+// import Header from "./Components/Header";
 import Alert from "./Components/Alert";
 import Chat from "./Components/Chat/Chat";
+
+import EditProfile from "./Components/EditProfile";
 
 const useStyles = makeStyles(() => ({
   App: {
@@ -24,12 +26,16 @@ function App() {
   return (
     <BrowserRouter>
       <div className={classes.App}>
-        <Header />
         <Route path="/" component={Homepage} exact />
         <Route path="/crypto-hunter" component={Homepage} exact />
         <Route path="/coins/:id" component={CoinPage} exact />
         <Route path="/crypto-hunter/coins/:id" component={CoinPage} exact />
         <Route path="/verify-email" component={VerifyEmailPage} exact />
+        <Route
+          path="/crypto-hunter/edit-profile"
+          component={EditProfile}
+          exact
+        />
       </div>
       <Alert />
       <Chat />

@@ -17,12 +17,10 @@ import {
   Paper,
 } from "@material-ui/core";
 import axios from "axios";
-// import { CoinList } from "../config/api";
-import { CoinList } from "./config/api";
-
 import { useHistory } from "react-router-dom";
 import { CryptoState } from "../CryptoContext";
-
+import { CoinList } from "./config/api";
+import CoinsGraph from "./CoinsGraph";
 export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -33,7 +31,7 @@ export default function CoinsTable() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  const { currency, symbol } = CryptoState();
+  const { currency, symbol, user } = CryptoState();
 
   const useStyles = makeStyles({
     row: {
@@ -48,6 +46,10 @@ export default function CoinsTable() {
       "& .MuiPaginationItem-root": {
         color: "gold",
       },
+    },
+    graph: {
+      width: "20%",
+      height: "30%",
     },
   });
 
@@ -66,30 +68,21 @@ export default function CoinsTable() {
   const fetchCoins = async () => {
     setLoading(true);
     const { data } = await axios.get(CoinList(currency));
-    // console.log(data);
-
     setCoins(data);
     setLoading(false);
-  };
-  const fetchHistoricData = async () => {
-    const { data } = await axios.get(CoinList(currency));
-    const graph = data.coins;
-    console.log(graph);
   };
 
   useEffect(() => {
     fetchCoins();
-    fetchHistoricData();
-    // fetchHistoricData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currency]);
 
   const handleSearch = () => {
     return coins.filter(
       (coin) =>
-        coin.name.toLowerCase().includes(search) ||
-        coin.symbol.toLowerCase().includes(search)
+        coin.name.toLowerCase().includes(search.toLowerCase()) ||
+        coin.symbol.toLowerCase().includes(search.toLowerCase())
+      // coin.name.toLowerCase().includes(search) ||
+      // coin.symbol.toLowerCase().includes(search)
     );
   };
 
@@ -114,21 +107,43 @@ export default function CoinsTable() {
           ) : (
             <Table aria-label="simple table">
               <TableHead style={{ backgroundColor: "#EEBC1D" }}>
-                <TableRow>
-                  {["Coin", "Price", "24h Change", "Market Cap"].map((head) => (
-                    <TableCell
-                      style={{
-                        color: "black",
-                        fontWeight: "700",
-                        fontFamily: "Montserrat",
-                      }}
-                      key={head}
-                      align={head === "Coin" ? "" : "right"}
-                    >
-                      {head}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                {user ? (
+                  <TableRow>
+                    {["Coin", "Price", "24h Change", "Market Cap", "Graph"].map(
+                      (head) => (
+                        <TableCell
+                          style={{
+                            color: "black",
+                            fontWeight: "700",
+                            fontFamily: "Montserrat",
+                          }}
+                          key={head}
+                          align={head === "Coin" ? "" : "right"}
+                        >
+                          {head}
+                        </TableCell>
+                      )
+                    )}
+                  </TableRow>
+                ) : (
+                  <TableRow>
+                    {["Coin", "Price", "24h Change", "Market Cap"].map(
+                      (head) => (
+                        <TableCell
+                          style={{
+                            color: "black",
+                            fontWeight: "700",
+                            fontFamily: "Montserrat",
+                          }}
+                          key={head}
+                          align={head === "Coin" ? "" : "right"}
+                        >
+                          {head}
+                        </TableCell>
+                      )
+                    )}
+                  </TableRow>
+                )}
               </TableHead>
 
               <TableBody>
@@ -181,7 +196,7 @@ export default function CoinsTable() {
                         <TableCell
                           align="right"
                           style={{
-                            color: profit > 0 ? "rgb(14, 203, 129)" : "red",
+                            color: profit ? "rgb(14, 203, 129)" : "red",
                             fontWeight: 500,
                           }}
                         >
@@ -194,6 +209,13 @@ export default function CoinsTable() {
                             row.market_cap.toString().slice(0, -6)
                           )}
                         </TableCell>
+                        {user ? (
+                          <TableCell align="right" className={classes.graph}>
+                            <CoinsGraph coinId={row.id} />
+                          </TableCell>
+                        ) : (
+                          ""
+                        )}
                       </TableRow>
                     );
                   })}
@@ -202,7 +224,6 @@ export default function CoinsTable() {
           )}
         </TableContainer>
 
-        {/* Comes from @material-ui/lab */}
         <Pagination
           count={(handleSearch()?.length / 10).toFixed(0)}
           style={{
